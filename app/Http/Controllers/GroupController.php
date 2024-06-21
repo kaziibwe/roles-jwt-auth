@@ -87,7 +87,7 @@ public function deleteGroup($id)
 {
     $group = Group::find($id);
     if (!$group) {
-        return response()->json(['message' => 'Doctor Not Found']);
+        return response()->json(['message' => 'group Not Found']);
     }
     $group->delete();
     return response()->json(["Booking deleted successfully"], 200);

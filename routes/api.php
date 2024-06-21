@@ -115,6 +115,7 @@ Route::group([
 
 
 
+    Route::delete('deleteGroup/{id}', [GroupController::class,'deleteGroup'])->name('deleteGroup');
 
 
 
