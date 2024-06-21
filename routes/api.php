@@ -117,11 +117,11 @@ Route::group([
 
     Route::delete('deleteGroup/{id}', [GroupController::class,'deleteGroup'])->name('deleteGroup');
 
+    Route::patch('updateBookingStatus/{id}', [BookingController::class,'updateBookingStatus'])->name('updateBookingStatus');
 
 
 
-    //
-
+    // get all doctors
 
 
 });

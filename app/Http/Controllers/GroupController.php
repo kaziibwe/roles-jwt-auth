@@ -48,6 +48,7 @@ class GroupController extends Controller
 
 
 
+
 public function getAllGroups()
 {
     $Groups =   Group::all();
@@ -92,6 +93,7 @@ public function deleteGroup($id)
     $group->delete();
     return response()->json(["Booking deleted successfully"], 200);
 }
+
 
 
 

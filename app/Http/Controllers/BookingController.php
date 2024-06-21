@@ -124,12 +124,34 @@ class BookingController extends Controller
     {
         $Booking = Booking::find($id);
         if (!$Booking) {
-            return response()->json(['message' => 'Doctor Not Found']);
+            return response()->json(['message' => 'Booking Not Found']);
         }
         $Booking->delete();
         return response()->json(["Booking deleted successfully"], 200);
     }
 
+    public function updateBookingStatus(Request $request,$id){
+
+
+        $Booking = Booking::find($id);
+        if (!$Booking) {
+            return response()->json(['message' => 'Booking Not Found']);
+        }
+
+        $data = $request->validate([
+            "status"=>"required | string",
+
+        ]);
+
+        $group=Booking::where('id',$id)->update($data);
+
+        if($group){
+            return response()->json(["message"=>"booking updated successfully",'status'=>true],200);
+        }else{
+            return response()->json(['status'=>false],200);
+        }
+
+    }
 
 
 }
