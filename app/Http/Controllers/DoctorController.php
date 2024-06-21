@@ -102,4 +102,41 @@ class DoctorController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+
+
+
+    public function getAllDoctors()
+{
+    $doctors =   Doctor::all();
+    return response()->json(['doctors' => $doctors]);
+}
+
+
+public function deleteDoctor($id)
+{
+    $doctor = Doctor::find($id);
+    if (!$doctor) {
+        return response()->json(['message' => 'doctor Not Found']);
+    }
+    $doctor->delete();
+    return response()->json(["Doctor deleted successfully"], 200);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

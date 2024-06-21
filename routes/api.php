@@ -123,5 +123,13 @@ Route::group([
 
     // get all doctors
 
+    Route::get('getAllDoctors', [DoctorController::class,'getAllDoctors'])->name('getAllDoctors');
+
+
+    // delete user
+
+    Route::delete('deleteDoctor/{id}', [DoctorController::class,'deleteDoctor'])->name('deleteDoctor');
+
+
 
 });

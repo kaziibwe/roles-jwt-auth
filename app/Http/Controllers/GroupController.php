@@ -49,6 +49,7 @@ class GroupController extends Controller
 
 
 
+
 public function getAllGroups()
 {
     $Groups =   Group::all();
@@ -83,6 +84,8 @@ public function getSingleGroup($id)
         'group' => $group
     ]);
 }
+
+
 
 public function deleteGroup($id)
 {
