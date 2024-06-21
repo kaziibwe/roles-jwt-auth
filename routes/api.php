@@ -131,5 +131,6 @@ Route::group([
     Route::delete('deleteDoctor/{id}', [DoctorController::class,'deleteDoctor'])->name('deleteDoctor');
 
 
+    
 
 });

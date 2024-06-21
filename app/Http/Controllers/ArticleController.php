@@ -92,4 +92,16 @@ class ArticleController extends Controller
         $booking->delete();
         return response()->json(["booking deleted successfully"], 200);
     }
+
+    public function deleteArticle($id)
+    {
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json(['message' => 'article Not Found']);
+        }
+        $article->delete();
+        return response()->json(["message"=>"article deleted successfully"], 200);
+    }
+
+
 }
