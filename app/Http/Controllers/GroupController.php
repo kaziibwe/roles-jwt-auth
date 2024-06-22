@@ -22,6 +22,9 @@ class GroupController extends Controller
         ]);
 
 
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
         $group=Group::create($data);
 
         if($group){

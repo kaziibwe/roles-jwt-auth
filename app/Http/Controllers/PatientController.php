@@ -28,6 +28,7 @@ class PatientController extends Controller
             'password'=>'required',
 
         ]);
+   
         $data['password'] = bcrypt($data['password']);
         $patient=Patient::create($data);
 

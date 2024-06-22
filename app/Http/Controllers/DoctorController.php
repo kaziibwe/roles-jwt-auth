@@ -20,7 +20,7 @@ class DoctorController extends Controller
 
         $authenticatedUser = Auth::guard('admin-api')->user();
         if (!$authenticatedUser) {
-            return response()->json([]);
+            return response()->json(401);
         }
     try{
         $data = $request->validate([
@@ -35,6 +35,11 @@ class DoctorController extends Controller
             'password'=>'required',
 
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
         $data['password'] = bcrypt($data['password']);
         $doctor=Doctor::create($data);
 

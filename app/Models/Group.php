@@ -14,11 +14,12 @@ class Group extends Model
         'link',
         'title',
         'description',
-        'cover_image_url',
+        'image',
     ];
 
 
     public function doctor(){
         return $this->belongsTo(Doctor::class, 'doctor_id');
     }
+    
 }
