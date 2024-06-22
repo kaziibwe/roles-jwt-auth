@@ -70,11 +70,11 @@ class BookingController extends Controller
 
 
 
-    public function getAllBooking()
-    {
-        $Bookings =   Booking::all();
-        return response()->json(['Bookings' => $Bookings]);
-    }
+    // public function getAllBooking()
+    // {
+    //     $Bookings =   Booking::all();
+    //     return response()->json(['Bookings' => $Bookings]);
+    // }
 
     public function getBookingByDoctor($id)
     {

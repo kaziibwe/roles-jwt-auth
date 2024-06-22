@@ -90,7 +90,7 @@ Route::group([
 
 
      // get all booking by the patient
-     Route::get('getAllPatients', [BookingController::class,'getAllPatients'])->name('getAllPatients');
+    //  Route::get('getAllPatients', [BookingController::class,'getAllPatients'])->name('getAllPatients');
 
     // delete the booking
     Route::delete('deleteBooking/{id}', [ArticleController::class,'deleteBooking'])->name('deleteBooking');

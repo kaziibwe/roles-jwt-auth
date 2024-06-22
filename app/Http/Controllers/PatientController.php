@@ -28,7 +28,7 @@ class PatientController extends Controller
             'password'=>'required',
 
         ]);
-        
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('images', 'public');
         }
@@ -98,8 +98,9 @@ class PatientController extends Controller
 
 
 
-    public function getAllPatients(){
-        $patients =   Patient::all();
+     public function getAllPatients(){
+
+        $patients = Patient::all();
         return response()->json(['patients'=>$patients]);
     }
 
