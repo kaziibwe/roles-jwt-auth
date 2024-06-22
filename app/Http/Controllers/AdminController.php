@@ -25,6 +25,10 @@ class AdminController extends Controller
             'password'=>'required',
 
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
         $data['password'] = bcrypt($data['password']);
         $admin=Admin::create($data);
 

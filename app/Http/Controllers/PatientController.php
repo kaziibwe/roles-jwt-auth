@@ -28,7 +28,10 @@ class PatientController extends Controller
             'password'=>'required',
 
         ]);
-   
+        
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
         $data['password'] = bcrypt($data['password']);
         $patient=Patient::create($data);
 
