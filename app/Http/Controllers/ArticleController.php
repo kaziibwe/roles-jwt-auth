@@ -32,6 +32,11 @@ class ArticleController extends Controller
                 'createdAt' => $currentDateTime,
 
             ];
+
+            if ($request->hasFile('image')) {
+                $updateData['image'] = $request->file('image')->store('images', 'public');
+            }
+
             $arcticle = Article::create($updateData);
 
             if ($arcticle) {
@@ -57,6 +62,7 @@ class ArticleController extends Controller
     public function getAllArticle()
     {
         $articles =   Article::all();
+        
         return response()->json(['articles' => $articles]);
     }
 

@@ -12,7 +12,7 @@ class Article extends Model
     protected $fillable = [
         'doctor_id',
         'content',
-        'cover_image',
+        'image',
         'createdAt',
 
     ];

@@ -21,6 +21,7 @@ class GroupController extends Controller
             'description'=>'required',
         ]);
 
+
         $group=Group::create($data);
 
         if($group){
