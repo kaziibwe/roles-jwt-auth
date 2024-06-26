@@ -89,4 +89,18 @@ class AdminController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+
+
+public function getSingleAdmin($id)
+{
+    $Admin = Admin::find($id);
+    if (!$Admin) {
+        return response()->json(['message' => 'Admin Not Found']);
+    }
+    return response()->json([
+        'Admin' => $Admin
+    ]);
+}
+
+
 }

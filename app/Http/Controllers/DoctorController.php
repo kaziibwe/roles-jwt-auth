@@ -20,7 +20,7 @@ class DoctorController extends Controller
 
         $authenticatedUser = Auth::guard('admin-api')->user();
         if (!$authenticatedUser) {
-            return response()->json(401);
+            return response()->json(['status'=>false],401);
         }
     try{
         $data = $request->validate([
@@ -130,7 +130,16 @@ public function deleteDoctor($id)
 
 
 
-
+public function getSingleDoctor($id)
+{
+    $doctor = Doctor::find($id);
+    if (!$doctor) {
+        return response()->json(['message' => 'doctor Not Found']);
+    }
+    return response()->json([
+        'doctor' => $doctor
+    ]);
+}
 
 
 

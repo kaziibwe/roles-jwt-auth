@@ -37,6 +37,9 @@ Route::group([
     Route::post('logoutAdmin', [AdminController::class,'logoutAdmin'])->name('logoutAdmin');
     Route::get('profileAdmin', [AdminController::class,'profileAdmin'])->name('profileAdmin');
 
+    Route::get('getSingleAdmin/{id}', [AdminController::class,'getSingleAdmin'])->name('getSingleAdmin');
+
+
 
     Route::post('Patientlogin', [PatientController::class,'Patientlogin'])->name('Patientlogin');
     Route::post('Patientregister', [PatientController::class,'Patientregister'])->name('Patientregister');
@@ -52,6 +55,12 @@ Route::group([
     Route::post('loginUser', [UserController::class,'loginUser'])->name('loginUser');
 
     Route::get('profileUser', [UserController::class,'profileUser'])->name('profileUser');
+
+    Route::get('getSingleDoctor/{id}', [DoctorController::class,'getSingleDoctor'])->name('getSingleDoctor');
+
+
+
+
 
     Route::post('logoutUser', [UserController::class,'logoutUser'])->name('logoutUser');
 
@@ -73,6 +82,8 @@ Route::group([
 
 
     // petients
+
+    Route::get('getSinglePatient/{id}', [PatientController::class,'getSinglePatient'])->name('getSinglePatient');
 
     Route::get('getAllPatients', [PatientController::class,'getAllPatients'])->name('getAllPatients');
     Route::post('createBooking', [BookingController::class,'createBooking'])->name('createBooking');

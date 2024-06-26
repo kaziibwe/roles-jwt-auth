@@ -60,8 +60,6 @@ class PatientController extends Controller
     public function Patientlogin(Request $request){
             $credentials = request(['email', 'password']);
 
-
-
             if (! $token = auth()->guard('patient-api')->attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -113,6 +111,17 @@ class PatientController extends Controller
 
     //    }
 
+
+    public function getSinglePatient($id)
+{
+    $patient = Patient::find($id);
+    if (!$patient) {
+        return response()->json(['message' => 'patient Not Found']);
+    }
+    return response()->json([
+        'patient' => $patient
+    ]);
+}
 
 }
 
