@@ -13,72 +13,124 @@ class DoctorController extends Controller
 {
     //
 
-    public function _construct() {
-        $this->middleware('auth:doctor-api',['except'=>['doctorlogin','doctorregister']]);
-   }
-    public function Doctorregister(Request $request){
+    public function _construct()
+    {
+        $this->middleware('auth:doctor-api', ['except' => ['doctorlogin', 'doctorregister']]);
+    }
+    public function Doctorregister(Request $request)
+    {
 
-        $authenticatedUser = Auth::guard('admin-api')->user();
-        if (!$authenticatedUser) {
-            return response()->json(['status'=>false],401);
+        // $authenticatedUser = Auth::guard('admin-api')->user();
+        // if (!$authenticatedUser) {
+        //     return response()->json(['status' => false], 401);
+        // }
+        try {
+            $data = $request->validate([
+                'email' => ['required', 'email', Rule::unique('doctors', 'email')],
+                "name" => "required | string",
+                "sex" => "required | string",
+                "location" => "required | string",
+                "category" => "required | string",
+                "nin" => "required | string",
+                "age" => "required | string",
+                "phone" => "required | string",
+                'password' => 'required',
+
+            ]);
+
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('images', 'public');
+            }
+
+            $data['password'] = bcrypt($data['password']);
+            $doctor = Doctor::create($data);
+
+            if ($doctor) {
+                return response()->json(["doctor" => $doctor, 'status' => true], 200);
+            } else {
+                return response()->json(['status' => false], 200);
+            }
+        } catch (ValidationException $e) {
+            // Return JSON response with validation errors
+            return response()->json([
+                'errors' => $e->errors(), // Detailed validation errors
+            ], 422);
+        } catch (\Exception $e) {
+            // Catch any other exceptions and return a generic error response
+            return response()->json([
+                'error' => $e->getMessage(), // Detailed error message
+            ], 500);
         }
-    try{
-        $data = $request->validate([
-            'email' => ['required', 'email', Rule::unique('doctors', 'email')],
-            "name"=>"required | string",
-            "sex"=>"required | string",
-            "location"=>"required | string",
-            "category"=>"required | string",
-            "nin"=>"required | string",
-            "age"=>"required | string",
-            "phone"=>"required | string",
-            'password'=>'required',
+    }
 
-        ]);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
+    public function doctorUpdate(Request $request, $id)
+    {
+
+        // $authenticatedUser = Auth::guard('admin-api')->user();
+        // if (!$authenticatedUser) {
+        //     return response()->json(['status' => false], 401);
+        // }
+
+        $user = Doctor::find($id);
+        if (!$user) {
+            return response()->json(['status' => false], 404);
         }
 
-        $data['password'] = bcrypt($data['password']);
-        $doctor=Doctor::create($data);
+        try {
+            $data = $request->validate([
+                'email' => 'email|nullable',
+                "name" => "nullable ",
+                "sex" => "nullable ",
+                "location" => "nullable ",
+                "category" => "nullable ",
+                "nin" => "nullable ",
+                "age" => "nullable ",
+                "phone" => "nullable ",
+                'password' => 'nullable',
 
-        if($doctor){
-            return response()->json(["doctor"=>$doctor,'status'=>true],200);
-        }else{
-            return response()->json(['status'=>false],200);
+            ]);
+
+
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('images', 'public');
+            }
+
+            // Hash the password if it is present in the request
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+
+            } else {
+                unset($data['password']);
+            }
+
+            $user->update($data);
+
+            return response()->json(["message" => "Doctor updated successfully", 'status' => true], 200);
+        } catch (ValidationException $e) {
+            // Return JSON response with validation errors
+            return response()->json([
+                'errors' => $e->errors(), // Detailed validation errors
+            ], 422);
+        } catch (\Exception $e) {
+            // Catch any other exceptions and return a generic error response
+            return $e->getMessage();
+            return response()->json(["message" => "Server error"], 500);
         }
-
-
-} catch (ValidationException $e) {
-    // Return JSON response with validation errors
-    return response()->json([
-        'errors' => $e->errors(), // Detailed validation errors
-    ], 422);
-} catch (\Exception $e) {
-    // Catch any other exceptions and return a generic error response
-    return response()->json([
-        'error' => $e->getMessage(), // Detailed error message
-    ], 500);
-}
-
-
-
-
     }
 
 
 
-    public function Doctorlogin(Request $request){
-            $credentials = request(['email', 'password']);
+    public function Doctorlogin(Request $request)
+    {
+        $credentials = request(['email', 'password']);
 
 
 
-            if (! $token = auth()->guard('doctor-api')->attempt($credentials)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
-            return $token;
-
+        if (!$token = auth()->guard('doctor-api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return $token;
     }
 
     // protected function respondWithToken($token)
@@ -111,46 +163,33 @@ class DoctorController extends Controller
 
 
     public function getAllDoctors()
-{
-    $doctors =   Doctor::all();
-    return response()->json(['doctors' => $doctors]);
-}
-
-
-public function deleteDoctor($id)
-{
-    $doctor = Doctor::find($id);
-    if (!$doctor) {
-        return response()->json(['message' => 'doctor Not Found']);
+    {
+        $doctors =   Doctor::all();
+        return response()->json(['doctors' => $doctors]);
     }
-    $doctor->delete();
-    return response()->json(["Doctor deleted successfully"], 200);
-}
 
 
-
-
-public function getSingleDoctor($id)
-{
-    $doctor = Doctor::find($id);
-    if (!$doctor) {
-        return response()->json(['message' => 'doctor Not Found']);
+    public function deleteDoctor($id)
+    {
+        $doctor = Doctor::find($id);
+        if (!$doctor) {
+            return response()->json(['message' => 'doctor Not Found']);
+        }
+        $doctor->delete();
+        return response()->json(["Doctor deleted successfully"], 200);
     }
-    return response()->json([
-        'doctor' => $doctor
-    ]);
-}
 
 
 
 
-
-
-
-
-
-
-
-
-
+    public function getSingleDoctor($id)
+    {
+        $doctor = Doctor::find($id);
+        if (!$doctor) {
+            return response()->json(['message' => 'doctor Not Found']);
+        }
+        return response()->json([
+            'doctor' => $doctor
+        ]);
+    }
 }
