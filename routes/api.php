@@ -10,6 +10,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PatientController;
+use App\Models\Doctor;
+use App\Models\Patient;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,15 @@ Route::group([
     Route::post('Adminregister', [AdminController::class,'Adminregister'])->name('Adminregister');
     Route::post('logoutAdmin', [AdminController::class,'logoutAdmin'])->name('logoutAdmin');
     Route::get('profileAdmin', [AdminController::class,'profileAdmin'])->name('profileAdmin');
+
+
+    Route::post('doctorUpdate/{id}', [DoctorController::class,'doctorUpdate'])->name('doctorUpdate');
+    Route::post('patientUpdate/{id}', [PatientController::class,'patientUpdate'])->name('patientUpdate');
+    Route::post('adminUpdate/{id}', [AdminController::class,'adminUpdate'])->name('adminUpdate');
+
+
+
+
 
     Route::get('getSingleAdmin/{id}', [AdminController::class,'getSingleAdmin'])->name('getSingleAdmin');
 
